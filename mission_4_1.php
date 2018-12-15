@@ -21,17 +21,17 @@ $sql = "CREATE TABLE mission_4"
 ."id INT,"
 ."name VARCHAR(32),"
 ."msg TEXT,"
-."date TEXT," //date
+."date TEXT," 
 ."pwd VARCHAR(32)"
 .");";
 $stmt = $pdo -> query($sql);
 
 
-if(!empty($edit))//編集　位置移動
+if(!empty($edit))//編集　
 {
     if(!empty($e_pwd) && $e_pwd == $e_pwd)
     {
-        $sql = 'select * from mission_4 order by id';  //入力したデータをSELECTによって表示する。
+        $sql = 'select * from mission_4 order by id';  
         $result = $pdo -> query($sql);
         foreach($result as $row)
         {
@@ -91,7 +91,7 @@ if((!empty($name)) && (!empty($msg)))
           $result = $pdo -> query($sql);
           $num = 0;
           $id = 0;
-          foreach($result as $row) //警告文表示したままで投稿を進めると警告文が表示される
+          foreach($result as $row) 
           {
               $num = $row['id'];
           }
@@ -127,7 +127,7 @@ if(!empty($_POST['edit_execute']))//編集　
 {
     //if(!empty($e_pwd) && $e_pwd == $e_pwd)
     //{
-      $id = $_POST['edit_execute'];//ここから下5行追加
+      $id = $_POST['edit_execute'];
       $name = $_POST["name"];
       $msg = $_POST["msg"];
       $today = date('Y/m/d H:i:s');
@@ -139,7 +139,7 @@ if(!empty($_POST['edit_execute']))//編集　
         {
             if($row['id'] == $id && $row['pwd'] == $pwd)
             {
-                $sql = "UPDATE mission_4 set name='$name', msg='$msg', date='$today' where id=$id ";//date
+                $sql = "UPDATE mission_4 set name='$name', msg='$msg', date='$today' where id=$id ";
                 $result = $pdo -> query($sql);
             }
         }
