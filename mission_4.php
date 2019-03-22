@@ -1,4 +1,3 @@
-
 <?php
 $name = $_POST["name"];//名前、コメント、日にち、パスワード、編集、削除の関連の定義
 $msg = $_POST["msg"];
@@ -11,9 +10,9 @@ $e_pwd = $_POST["e_pwd"];
 ?>
 
 <?php
-$dsn = 'データベース名';
-$user = 'ユーザー名';
-$password = 'パスワード';
+$dsn = 'mysql:dbname=data;host=localhost';
+$user = 'root';
+$password = 'root';
 $pdo = new PDO($dsn, $user, $password);
 
 $sql = "CREATE TABLE mission_4"//DBに制作される名前
@@ -25,11 +24,30 @@ $sql = "CREATE TABLE mission_4"//DBに制作される名前
 ."pwd VARCHAR(32)"
 .");";
 $stmt = $pdo -> query($sql);
+
+
+if(!empty($edit))//編集　
+{
+    if(!empty($e_pwd) && $e_pwd == $e_pwd)
+    {
+        $sql = 'select * from mission_4 order by id';  //入力したデータをSELECTによって表示する。
+        $result = $pdo -> query($sql);
+        foreach($result as $row)
+        {
+             if($row['id'] == $edit)
+             {
+                 $edit_name = $row['name'];
+                 $edit_msg = $row['msg'];
+             }
+        }
+    }
+}
 ?>
 
 <!-ここからHTML->
 <!doctype html>
 <html lang="ja">
+<link rel="stylesheet" type="text/css" href="mission_4.css">
 <head>
     <meta charset="utf-8">
 
@@ -44,12 +62,15 @@ $stmt = $pdo -> query($sql);
   <!-入力フォーム->
     <form method= "POST" action="mission_4.php">
         <label>名前：</label>
-        <input type="text" name= "name" placeholder="名前" value="<?php echo $edit_name;?>"><br>
+        <input type="text" name= "name" placeholder="名前" value="<?php echo $edit_name;?>">
+        <br>
         <label>コメント：</label>
         <input type="text" name= "msg" placeholder="コメント"value="<?php echo $edit_msg;?>"><br>
+        <label>パスワード：</label>
         <input type="text" name= "pwd" placeholder="パスワード"><br>
         <input type="submit" value="送信"><br>
         <input type="hidden" name="edit_execute" value="<?php echo $edit_num;?>"><br>
+        編集・削除は<a href="misson4.php">こちら</a></br>
 
         <input type="text" name= "delete" placeholder="削除対象番号"><br>
         <input tupe = "text" name = "d_pwd" placeholder = "パスワード" value = "">
@@ -57,26 +78,12 @@ $stmt = $pdo -> query($sql);
         <input type="text" name= "edit" placeholder="編集対象番号"><br>
         <input tupe = "text" name = "e_pwd" placeholder = "パスワード" value = "">
         <input type="submit" value="編集"><br>
+
 </body>
 </html>
 
 <?php
-if(!empty($edit))//編集　
-{
-    if(!empty($e_pwd) && $e_pwd == $e_pwd)
-    {
-        $sql = 'select * from mission_4 order by id';  //入力したデータをSELECTによって表示する。
-        $result = $pdo -> query($sql);
-        foreach($result as $row)
-        {
-             if($row['id'] == $edit)
-             {
-                 $editname = $row['name'];
-                 $editmsg = $row['msg'];
-             }
-        }
-    }
-}
+
 
 
 if((!empty($name)) && (!empty($msg)))//入力フォームに入力されていた場合
@@ -140,10 +147,10 @@ if(!empty($edit))//編集のパスワードが一致した場合
 
 $sql = 'select * from mission_4 order by id';  //表示
 $result = $pdo -> query($sql);
+$i = 1;
 foreach($result as $row)
 {
     print $row['id'].' '. $row['name'].' '. $row['msg'].' ' .  $row['date'].'<br>';
+
 }
-
-
 ?>
