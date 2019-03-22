@@ -10,9 +10,9 @@ $e_pwd = $_POST["e_pwd"];
 ?>
 
 <?php
-$dsn = 'mysql:dbname=data;host=localhost';
-$user = 'root';
-$password = 'root';
+$dsn = 'データベース名';
+$user = 'ユーザー名';
+$password = 'パスワード';
 $pdo = new PDO($dsn, $user, $password);
 
 $sql = "CREATE TABLE mission_4"//DBに制作される名前
@@ -44,7 +44,7 @@ if(!empty($edit))//編集　
 }
 ?>
 
-<!-ここからHTML->
+<!--ここからHTML-->
 <!doctype html>
 <html lang="ja">
 <link rel="stylesheet" type="text/css" href="mission_4.css">
@@ -59,7 +59,7 @@ if(!empty($edit))//編集　
 </head>
 
 <body>
-  <!-入力フォーム->
+  <!--入力フォーム-->
     <form method= "POST" action="mission_4.php">
         <label>名前：</label>
         <input type="text" name= "name" placeholder="名前" value="<?php echo $edit_name;?>">
